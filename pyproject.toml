@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "binance-prices"
+version = "0.1.0"
+description = ""
+authors = ["Gustavo Correa <gustavo.araujo.correa@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+websocket-client = "^1.8.0"
+openpyxl = "^3.1.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
