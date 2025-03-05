@@ -1,14 +1,20 @@
-# Usar uma imagem oficial do Python
+# Etapa 1: Escolha uma imagem base compatível
 FROM python:3.13.2
 
-# Definir o diretório de trabalho dentro do container
+# Etapa 2: Configurar o diretório de trabalho
 WORKDIR /app
 
-# Copiar os arquivos do projeto para o container
+# Etapa 3: Copiar os arquivos do projeto para o contêiner
+COPY pyproject.toml poetry.lock ./
+
+# Etapa 4: Instalar o Poetry
+RUN pip install poetry
+
+# Etapa 5: Instalar dependências do projeto
+RUN poetry install --no-root --no-interaction
+
+# Etapa 6: Copiar o restante dos arquivos para o contêiner
 COPY . .
 
-# Instalar dependências do projeto (incluindo requests e openpyxl)
-RUN pip install poetry && poetry install
-
-# Comando para executar o script automaticamente ao iniciar o container
-CMD ["python", "binance_prices_to_excel.py"]
+# Etapa 7: Definir o comando padrão para execução
+CMD ["poetry", "run", "python", "binance_prices_to_excel.py"]
