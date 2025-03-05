@@ -1,20 +1,23 @@
-# Etapa 1: Escolha uma imagem base compatível
+# Usar a versão correta do Python
 FROM python:3.13.2
 
-# Etapa 2: Configurar o diretório de trabalho
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Etapa 3: Copiar os arquivos do projeto para o contêiner
+# Copiar apenas os arquivos essenciais para o Poetry
 COPY pyproject.toml poetry.lock ./
 
-# Etapa 4: Instalar o Poetry
+# Instalar Poetry
 RUN pip install poetry
 
-# Etapa 5: Instalar dependências do projeto
+# **Desativar o ambiente virtual do Poetry para instalar os pacotes globalmente**
+ENV POETRY_VIRTUALENVS_CREATE=false
+
+# Instalar dependências globalmente no contêiner
 RUN poetry install --no-root --no-interaction
 
-# Etapa 6: Copiar o restante dos arquivos para o contêiner
+# Agora, copiar o código do projeto para o contêiner
 COPY . .
 
-# Etapa 7: Definir o comando padrão para execução
-CMD ["poetry", "run", "python", "binance_prices_to_excel.py"]
+# Garantir que o Python correto rode
+CMD ["python", "binance_prices_to_excel.py"]
